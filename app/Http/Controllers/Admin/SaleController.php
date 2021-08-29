@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\SaleTrait;
+use App\Models\Sale;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
@@ -95,17 +96,17 @@ class SaleController extends Controller
             'name' => 'required',
             'model_name' => 'required',
             'quantity_sold' => 'required',
-            'selling_price' => 'required',
         ]);
 
         $sale_id = $request->id;
+
+        $selling_price = Sale::where('id', $sale_id)->value('selling_price');
 
         $payload = array(
             'name' => $request->name,
             'model_name' => $request->model_name,
             'quantity_sold' => $request->quantity_sold,
-            'selling_price' => $request->selling_price,
-            'total' => $request->selling_price * $request->quantity_sold,
+            'total' => $selling_price * $request->quantity_sold,
         );
 
         return $this->update_sale($payload, $sale_id);

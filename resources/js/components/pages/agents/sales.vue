@@ -102,9 +102,9 @@
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="editData.selling_price" type="number" placeholder="Sale Price..." />
+						<!-- <Input v-model="editData.selling_price" type="number" placeholder="Sale Price..." /> -->
 
-                        <div style="margin: 10px;"></div>
+                        <!-- <div style="margin: 10px;"></div> -->
 
 						<div slot="footer">
 							<Button type="success" @click="editSale" :disabled="isEditing" :loading="isEditing">{{isEditing ? 'Editing...' : 'Submit'}}</Button>
