@@ -51,7 +51,7 @@ class ProductController extends Controller
 
         $payload = array(
             'name' => $request->name,
-            'model_name' => $request->model_name,
+            'model_name' => $request->model_name . ' (' . $request->name . ')',
             'quantity' => $request->quantity,
             'image'=> $request->image,
             'buying_price' => $request->buying_price,
@@ -103,9 +103,13 @@ class ProductController extends Controller
 
         $product_id = $request->id;
 
+        $result = explode('(',$request->model_name);
+
+        $model_name = $result[0];
+
         $payload = array(
             'name' => $request->name,
-            'model_name' => $request->model_name,
+            'model_name' => $model_name . '(' . $request->name . ')',
             'quantity' => $request->quantity,
             'image'=> $request->image,
             'buying_price' => $request->buying_price,

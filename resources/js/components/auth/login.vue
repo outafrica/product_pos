@@ -9,12 +9,12 @@
 
             <div style="padding: 10px 0">
 
-                <Input type="email" v-model="loginData.email" placeholder="Email..." />
+                <Input type="text" v-model="loginData.username" placeholder="Username" />
                 
             </div>
             <div style="padding: 10px 0">
 
-                <Input type="password" v-model="loginData.password" placeholder="****" />
+                <Input type="password" v-model="loginData.password" placeholder="Password" />
                 
             </div>
 
@@ -37,7 +37,7 @@
 
             loginData: {
                 
-                email: '',
+                username: '',
                 password: '',
 
             },
@@ -54,8 +54,8 @@
 
                this.token = window.Laravel.csrfToken;
 
-               	if(this.loginData.email.trim() == ''){
-				   return this.e('The Email is required');
+               	if(this.loginData.username.trim() == ''){
+				   return this.e('The Username is required');
 				}else if(this.loginData.password.trim() == ''){
 				   return this.e('The Password is required');
 				}

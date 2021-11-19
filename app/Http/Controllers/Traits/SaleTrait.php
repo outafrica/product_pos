@@ -22,10 +22,15 @@ trait SaleTrait
 
         $product_qauntity = Product::where('model_name', $payload['model_name'])->value('quantity');
 
+        $buying_price = Product::where('model_name', $payload['model_name'])->value('buying_price');
+
         $new_quantity = $product_qauntity - $payload['quantity_sold'];
+
+        $total = $buying_price * $new_quantity;
 
         $update = Product::where('model_name', $payload['model_name'])->update([
             'quantity' => $new_quantity,
+            'total' => $total,
         ]);
 
         if($update){
@@ -41,15 +46,20 @@ trait SaleTrait
     public function update_sale($payload, $sale_id){
 
         $sale_quant = Sale::where('id', $sale_id)->value('quantity_sold');
-
+        
         $sale_diff = $payload['quantity_sold'] - $sale_quant;
 
         $product_qauntity = Product::where('model_name', $payload['model_name'])->value('quantity');
 
+        $buying_price = Product::where('model_name', $payload['model_name'])->value('buying_price');
+
         $new_quantity = $product_qauntity - $sale_diff;
+
+        $total = $buying_price * $new_quantity;
 
         $update = Product::where('model_name', $payload['model_name'])->update([
             'quantity' => $new_quantity,
+            'total' => $total,
         ]);
 
         if($update){

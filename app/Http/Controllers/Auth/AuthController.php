@@ -20,15 +20,15 @@ class AuthController extends Controller
     {
         $this->validate($request, [
 
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required',
 
         ]);
         
-        $email = $request->email;
+        $username = $request->username;
         $password = $request->password;
 
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+        if (Auth::attempt(['username' => $username, 'password' => $password])) {
 
             $user = Auth::user();
             

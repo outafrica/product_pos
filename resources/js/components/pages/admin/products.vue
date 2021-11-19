@@ -24,7 +24,7 @@
 
 
 								<!-- ITEMS -->
-							<tr v-for="(product, c) in products " :key="c" v-if="products.length">
+							<tr v-for="(product, c) in products " :key="c">
 								<td>{{ c + 1 }}</td>
 								<td class="table_pro_img">
 									<img :src="product.image" alt="" srcset="">
