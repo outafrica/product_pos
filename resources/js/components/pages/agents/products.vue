@@ -5,7 +5,7 @@
 					
 				<!--~~~~~~~ TABLE ONE ~~~~~~~~~-->
 				<div class="_1adminOverveiw_table_recent _box_shadow _border_radious _mar_b30 _p20">
-					<p class="_title0">Products <Button @click="addProductModal=true"><Icon type="md-add"/> Add Product</Button></p>
+					<!-- <p class="_title0">Products <Button @click="addProductModal=true"><Icon type="md-add"/> Add Product</Button></p> -->
 
 					<div class="_overflow _table_div">
 						<table class="_table">
@@ -18,13 +18,13 @@
 								<th>Quantity</th>
 								<!-- <th>Price</th> -->
 								<!-- <th>Total</th> -->
-								<th>Action</th>
+								<!-- <th>Action</th> -->
 							</tr>
 								<!-- TABLE TITLE -->
 
 
 								<!-- ITEMS -->
-							<tr v-for="(product, c) in products " :key="c" v-if="products.length">
+							<tr v-for="(product, c) in products " :key="c">
 								<td>{{ c + 1 }}</td>
 								<td class="table_pro_img">
 									<img :src="product.image" alt="" srcset="">
@@ -34,10 +34,10 @@
 								<td>{{product.quantity}}</td>
 								<!-- <td>{{product.buying_price}}</td> -->
 								<!-- <td>{{product.total}}</td> -->
-								<td>
+								<!-- <td>
 									<Button type="info" size="small" @click="showEditModal(product, c)">Edit</Button>
 									<Button type="error" size="small" @click="showDeleteModal(product, c)" :loading="product.isDeleting">Delete</Button>
-								</td>
+								</td> -->
 							</tr>
 								<!-- ITEMS -->
 						</table>
