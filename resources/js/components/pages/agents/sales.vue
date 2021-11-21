@@ -23,7 +23,7 @@
 
 
 								<!-- ITEMS -->
-							<tr v-for="(sale, c) in sales " :key="c" v-if="sales.length">
+							<tr v-for="(sale, c) in sales " :key="c">
 								<td>{{ c + 1 }}</td>
 								<td class="_table_name">{{sale.name}}</td>
 								<td>{{sale.model_name}}</td>
@@ -161,6 +161,7 @@
 				addSaleModal: false,
 				isAdding: false,
 				sales: [],
+				pro_bp: 0,
                 products: [],
 				editSaleModal: false,
 				isEditing: false,
@@ -182,6 +183,14 @@
        },
        methods: {
 		   async addSale(){
+
+			     for(let i in this.products){
+					if(this.data.model_name == this.products[i].model_name){
+						this.pro_bp = this.products[i].buying_price;
+					}
+				}
+
+				// console.log(this.pro_bp);
 			   
 				if(this.data.name.trim() == ''){
 				   return this.e('The Expense name is required');
@@ -189,8 +198,8 @@
 				   return this.e('The Model Name is required');
 				}else if(this.data.quantity_sold.trim() == 0){
 				   return this.e('The Quatity sold is required');
-				}else if(this.data.selling_price == 0){
-				   return this.e('Selling price is required');
+				}else if(this.data.selling_price < this.pro_bp ){
+				   return this.e('Selling price is less than allowed price');
 				}
 				const res = await this.callApi('post', '/agent/sales/create_sale', this.data);
 				if(res.status == 201){

@@ -23,7 +23,7 @@
 
 
 								<!-- ITEMS -->
-							<tr v-for="(expense, c) in expenses " :key="c" v-if="expenses.length">
+							<tr v-for="(expense, c) in expenses " :key="c">
 								<td>{{c + 1}}</td>
 								<td>{{expense.type}}</td>
 								<td>{{expense.sub_type}}</td>
@@ -314,7 +314,7 @@
 				if(res.status == 200){
 					this.expenses[this.index].type = this.editData.type;
 					this.expenses[this.index].sub_type = this.editData.sub_type;
-					this.expenses[this.index].beneficiary_name = this.editData.model_name;
+					this.expenses[this.index].beneficiary_name = this.editData.beneficiary_name;
 					this.expenses[this.index].receipt_number = this.editData.receipt_number;
 					this.expenses[this.index].amount = this.editData.amount;
 					this.expenses[this.index].month_paid = this.editData.month_paid;
