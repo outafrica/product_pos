@@ -20,7 +20,10 @@ class CreateProductsTable extends Migration
             $table->string('image')->nullable();
             $table->integer('quantity');
             $table->double('buying_price');
+            $table->double('distributor_ratio');
+            $table->double('wholesale_ratio');
             $table->double('total');
+            $table->integer('shop_id');
             $table->timestamps();
         });
     }

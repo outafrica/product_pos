@@ -58,8 +58,8 @@ class ExpenseSubTypeSeeder extends Seeder
         ]);
 
         DB::table('expense_sub_types')->insert([
-            'expense_type_id' => 0,
-            'name' => 'Other',
+            'expense_type_id' => 5,
+            'name' => 'Daily Expense',
             'created_at'=> Date::now(),
             'updated_at'=> Date::now(),
         ]);

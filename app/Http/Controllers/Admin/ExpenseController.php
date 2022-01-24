@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\ExpenseTrait;
+use App\Http\Traits\ExpenseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -39,24 +40,58 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request, [
-            'type' => 'required',
-            'sub_type' => 'required',
-            'beneficiary_name' => 'required',
-            'amount' => 'required',
-            'month_paid' => 'required',
-        ]);
+        $data = array();
 
-        $payload = array(
-            'type' => $request->type,
-            'sub_type' => $request->sub_type,
-            'beneficiary_name' => $request->beneficiary_name,
-            'receipt_number'=> $request->receipt_number,
-            'amount' => $request->amount,
-            'month_paid' => $request->month_paid,
-        );
+        if(Auth::user()->role_id == 2){
 
-        return $this->add_expense($payload);
+            $this->validate($request, [
+                'type' => 'required',
+                'sub_type' => 'required',
+                'beneficiary_name' => 'required',
+                'amount' => 'required',
+                'shop_id' => 'required',
+                'month_paid' => 'required',
+            ]);
+    
+            $payload = array(
+                'type' => $request->type,
+                'sub_type' => $request->sub_type,
+                'beneficiary_name' => $request->beneficiary_name,
+                'receipt_number'=> $request->receipt_number,
+                'amount' => $request->amount,
+                'shop_id' => $request->shop_id,
+                'month_paid' => $request->month_paid,
+            );
+
+            $data = $payload;
+
+        }else{
+
+            $this->validate($request, [
+                'type' => 'required',
+                'sub_type' => 'required',
+                'beneficiary_name' => 'required',
+                'amount' => 'required',
+                'month_paid' => 'required',
+            ]);
+    
+            $payload = array(
+                'type' => $request->type,
+                'sub_type' => $request->sub_type,
+                'beneficiary_name' => $request->beneficiary_name,
+                'receipt_number'=> $request->receipt_number,
+                'amount' => $request->amount,
+                'shop_id' => Auth::user()->shop_id,
+                'month_paid' => $request->month_paid,
+            );
+
+            $data = $payload;
+
+        }
+
+
+        return $this->add_expense($data);
+
     }
 
     /**

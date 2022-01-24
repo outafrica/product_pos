@@ -20,7 +20,20 @@ class Product extends Model
         'image',
         'quantity',
         'buying_price',
+        'distributor_ratio',
+        'wholesale_ratio',
         'total',
+        'shop_id'
     ];
+
+    /**
+     * define user shop relationships.
+     *
+     * @var array
+     */
+
+    public function shop(){
+        return $this->belongsTo(Shop::class);
+     }
 
 }

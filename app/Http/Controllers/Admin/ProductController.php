@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\ProductTrait;
+use App\Http\Traits\ProductTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -47,13 +47,19 @@ class ProductController extends Controller
             'model_name' => 'required',
             'quantity' => 'required',
             'buying_price' => 'required',
+            'shop_id' => 'required',
+            'distributor_ratio' => 'required',
+            'wholesale_ratio' => 'required',
         ]);
 
         $payload = array(
             'name' => $request->name,
-            'model_name' => $request->model_name . ' (' . $request->name . ')',
+            'model_name' => $request->model_name . ' (' . $request->name . ')' . ' - ' . $request->shop_id,
             'quantity' => $request->quantity,
             'image'=> $request->image,
+            'shop_id' => $request->shop_id,
+            'distributor_ratio' => $request->distributor_ratio,
+            'wholesale_ratio' => $request->wholesale_ratio,
             'buying_price' => $request->buying_price,
             'total' => $request->buying_price * $request->quantity,
         );
@@ -97,22 +103,28 @@ class ProductController extends Controller
             'name' => 'required',
             'model_name' => 'required',
             'quantity' => 'required',
+            'shop_id' => 'required',
+            'distributor_ratio' => 'required',
+            'wholesale_ratio' => 'required',
             'buying_price' => 'required',
 
         ]);
 
         $product_id = $request->id;
 
-        $result = explode('(',$request->model_name);
+        $result = explode('(', $request->model_name);
 
         $model_name = $result[0];
 
         $payload = array(
             'name' => $request->name,
-            'model_name' => $model_name . '(' . $request->name . ')',
+            'model_name' => $model_name . '(' . $request->name . ')' . ' - ' . $request->shop_id,
             'quantity' => $request->quantity,
             'image'=> $request->image,
             'buying_price' => $request->buying_price,
+            'shop_id' => $request->shop_id,
+            'distributor_ratio' => $request->distributor_ratio,
+            'wholesale_ratio' => $request->wholesale_ratio,
             'total' => $request->buying_price * $request->quantity,
         );
 

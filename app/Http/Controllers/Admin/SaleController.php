@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Traits\SaleTrait;
+use App\Http\Traits\SaleTrait;
 use App\Models\Sale;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
 {
@@ -41,6 +42,8 @@ class SaleController extends Controller
     public function store(Request $request)
     {
         //
+        $shop_id = Auth::user()->shop_id;
+
         $this->validate($request, [
             'name' => 'required',
             'model_name' => 'required',
@@ -49,6 +52,7 @@ class SaleController extends Controller
         ]);
 
         $payload = array(
+            'shop_id' => $shop_id,
             'name' => $request->name,
             'model_name' => $request->model_name,
             'quantity_sold' => $request->quantity_sold,

@@ -12,6 +12,7 @@
 								<!-- TABLE TITLE -->
 							<tr>
 								<th>ID</th>
+								<th>Shop</th>
 								<th>Image</th>
 								<th>Name</th>
 								<th>Model</th>
@@ -26,11 +27,12 @@
 								<!-- ITEMS -->
 							<tr v-for="(product, c) in products " :key="c">
 								<td>{{ c + 1 }}</td>
+								<td>{{product.shop_id}}</td>
 								<td class="table_pro_img">
 									<img :src="product.image" alt="" srcset="">
 								</td>
-								<td class="_table_name">{{product.name}}</td>
-								<td>{{product.model_name}}</td>
+								<td>{{product.name}}</td>
+								<td class="_table_name">{{product.model_name}}</td>
 								<td>{{product.quantity}}</td>
 								<td>{{product.buying_price}}</td>
 								<td>{{product.total}}</td>
@@ -66,6 +68,20 @@
                         <div style="margin: 10px;"></div>
 
 						<Input v-model="data.buying_price" type="number" placeholder="Product Price..." />
+
+                        <div style="margin: 10px;"></div>
+
+						<Input v-model="data.distributor_ratio" type="number" placeholder="Distributor ratio..." />
+
+                        <div style="margin: 10px;"></div>
+
+						<Input v-model="data.wholesale_ratio" type="number" placeholder="Wholesale ratio..." />
+
+                        <div style="margin: 10px;"></div>
+
+						<Select v-model="data.shop_id" placeholder="Select Shop" filterable>
+                            <Option v-for="(shop, sho) in shops" :key="sho" :value="shop.id">{{ shop.location }}</Option>
+                        </Select>
 
                         <div style="margin: 10px;"></div>
 
@@ -126,6 +142,20 @@
 
                         <div style="margin: 10px;"></div>
 
+						<Input v-model="editData.distributor_ratio" type="number" placeholder="Distributor ratio..." />
+
+                        <div style="margin: 10px;"></div>
+
+						<Input v-model="editData.wholesale_ratio" type="number" placeholder="Wholesale ratio..." />
+
+                        <div style="margin: 10px;"></div>
+
+						<Select v-model="editData.shop_id" placeholder="Select Shop" filterable disabled>
+                            <Option v-for="(shop, sho) in shops" :key="sho" :value="shop.id">{{ shop.location }}</Option>
+                        </Select>
+
+                        <div style="margin: 10px;"></div>
+
                         <Upload v-show="isUploadImage"
 							:on-success="handleSuccess"
 							:on-error="handleError"
@@ -181,8 +211,6 @@
 
 					<!--~~~~~~~ End of Product delete modal ~~~~~~~~~-->
 
-
-
 				</div>
 			</div>
 		</div>
@@ -201,11 +229,15 @@
 					image: '',
                     model_name: '',
                     quantity: '',
+					distributor_ratio: '',
+                    wholesale_ratio: '',
+                    shop_id: '',
                     buying_price: '',
 				},
 				addProductModal: false,
 				isAdding: false,
 				products: [],
+				shops: [],
 				editProductModal: false,
 				isEditing: false,
 				editData: {
@@ -213,6 +245,9 @@
 					image: '',
                     model_name: '',
                     quantity: '',
+					distributor_ratio: '',
+                    wholesale_ratio: '',
+                    shop_id: '',
                     buying_price: '',
 				},
 				index: -1,
@@ -289,14 +324,7 @@
 
 			},
 			showEditModal(product, index){
-				let obj = {
-					id: product.id,
-					name: product.name,
-					image: product.image,
-					model_name: product.model_name,
-					quantity: product.quantity,
-					buying_price: product.buying_price
-				}
+				let obj = product;
 				this.editData = obj;
 				this.editProductModal = true;
 				this.index = index;
@@ -313,6 +341,9 @@
 					this.products[this.index].image = this.editData.image;
 					this.products[this.index].model_name = this.editData.model_name;
 					this.products[this.index].quantity = this.editData.quantity;
+					this.products[this.index].shop_id = this.editData.shop_id;
+					this.products[this.index].distributor_ratio = this.editData.distributor_ratio;
+					this.products[this.index].wholesale_ratio = this.editData.wholesale_ratio;
 					this.products[this.index].buying_price = this.editData.buying_price;
 					this.products[this.index].total = this.editData.buying_price * this.editData.quantity;
 					this.s('Product successfully updated');
@@ -410,9 +441,21 @@
 		async created() {
 
 			this.token = window.Laravel.csrfToken;
-			const res = await this.callApi('get', '/admin/products/all_products');
-			if(res.status == 200){
-				this.products = res.data;
+			const [resProds, resShops] = await Promise.all([
+
+				this.callApi('get', '/admin/products/all_products'),
+				this.callApi('get', '/admin/shops/all_shops')
+
+			]);
+			
+			if(resShops.status == 200){
+				this.shops = resShops.data;
+			}else{
+				this.d();
+			}
+
+			if(resProds.status == 200){
+				this.products = resProds.data;
 			}else{
 				this.d();
 			}

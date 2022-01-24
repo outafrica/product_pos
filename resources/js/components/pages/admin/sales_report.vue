@@ -12,6 +12,7 @@
 								<!-- TABLE TITLE -->
 							<tr>
 								<th>ID</th>
+								<th>Shop</th>
 								<th>Product Name</th>
 								<th>Model Name</th>
 								<th>Quantity Sold</th>
@@ -23,8 +24,9 @@
 
 
 								<!-- ITEMS -->
-							<tr v-for="(sale, c) in sales " :key="c" v-if="sales.length">
+							<tr v-for="(sale, c) in sales " :key="c">
 								<td>{{ c + 1 }}</td>
+								<td>{{ sale.shop_id }}</td>
 								<td class="_table_name">{{sale.name}}</td>
 								<td>{{sale.model_name}}</td>
 								<td>{{sale.quantity_sold}}</td>
@@ -86,13 +88,13 @@
 						:mask-closable="false"
 						:closable="false"
 						>
-						<Select v-model="editData.name" placeholder="Select Expense Type" filterable>
+						<Select v-model="editData.name" placeholder="Select Expense Type" filterable disabled>
                             <Option v-for="(product, pro) in products" :key="pro" :value="product.name">{{ product.name }}</Option>
                         </Select>
 
                         <div style="margin: 10px;"></div>
 
-						<Select v-model="editData.model_name" placeholder="Select Product Model Name" filterable>
+						<Select v-model="editData.model_name" placeholder="Select Product Model Name" filterable disabled>
                             <Option v-for="(product, pro) in products" :key="pro" :value="product.model_name">{{ product.model_name }}</Option>
                         </Select>
 
@@ -155,8 +157,8 @@
 				data: {
 					name: '',
                     model_name: '',
-                    quantity_sold: 0,
-                    selling_price: 0,
+                    quantity_sold: '',
+                    selling_price: '',
 				},
 				addSaleModal: false,
 				isAdding: false,
@@ -167,8 +169,8 @@
 				editData: {
 					name: '',
                     model_name: '',
-                    quantity_sold: 0,
-                    selling_price: 0,
+                    quantity_sold: '',
+                    selling_price: '',
 				},
 				index: -1,
 				deleteModal: false,
@@ -208,6 +210,8 @@
 						for(let i in res.data.errors){
                             this.e(res.data.errors[i][0])
                         }
+					}else if(res.status == 430){
+                            this.e(res.data);
 					}else{					
 						this.d();
 					}					

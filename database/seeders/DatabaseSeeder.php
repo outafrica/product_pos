@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             ExpenseTypeSeeder::class,
             ExpenseSubTypeSeeder::class,
+            ShopSeeder::class,
         ]);
     }
 }

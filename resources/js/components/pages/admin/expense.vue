@@ -12,6 +12,7 @@
 								<!-- TABLE TITLE -->
 							<tr>
 								<th>ID</th>
+								<th>Shop</th>
 								<th>Type</th>
 								<th>Sub Type</th>
 								<th>Beneficiary Name</th>
@@ -21,10 +22,10 @@
 							</tr>
 								<!-- TABLE TITLE -->
 
-
 								<!-- ITEMS -->
-							<tr v-for="(expense, c) in expenses " :key="c" v-if="expenses.length">
+							<tr v-for="(expense, c) in expenses " :key="c">
 								<td>{{c + 1}}</td>
+								<td>{{expense.shop_id}}</td>
 								<td>{{expense.type}}</td>
 								<td>{{expense.sub_type}}</td>
 								<td class="_table_name">{{expense.beneficiary_name}}</td>
@@ -48,6 +49,12 @@
 						:mask-closable="false"
 						:closable="false"
 						>
+
+						<Select v-model="data.shop_id" placeholder="Select Shop" filterable>
+                            <Option v-for="(shop, sho) in shops" :key="sho" :value="shop.id">{{ shop.location }}</Option>
+                        </Select>
+
+                        <div style="margin: 10px;"></div>
 
 						<Select v-model="data.type" placeholder="Select Expense Type" filterable>
                             <Option v-for="(expensetype, expt) in expensetypes" :key="expt" :value="expensetype.name">{{ expensetype.name }}</Option>
@@ -170,16 +177,18 @@
            return {
 
             data: {
+                shop_id: '',
                 type: '',
                 sub_type: '',
                 beneficiary_name: '',
                 receipt_number: '',
-                amount: 0,
+                amount: '',
                 month_paid: new Date(),
             },
             addExpenseModal: false,
             isAdding: false,
             expenses: [],
+            shops: [],
             expensetypes:[],
             expensesubtypes:[],
             editExpenseModal: false,
@@ -189,7 +198,7 @@
                 sub_type: '',
                 beneficiary_name: '',
                 receipt_number: '',
-                amount: 0,
+                amount: '',
                 month_paid: new Date(),
             },
             index: -1,
@@ -377,13 +386,24 @@
 
             this.token = window.Laravel.csrfToken;
 
-            const res = await this.callApi('get', '/admin/expenses/all_expenses');
+			const [resExpen, resShops] = await Promise.all([
+
+				this.callApi('get', '/admin/expenses/all_expenses'),
+				this.callApi('get', '/admin/shops/all_shops')
+
+			]);
 			
-			if(res.status == 200){
-				this.expenses = res.data;
+			if(resShops.status == 200){
+				this.shops = resShops.data;
 			}else{
 				this.d();
-            }
+			}
+
+			if(resExpen.status == 200){
+				this.expenses = resExpen.data;
+			}else{
+				this.d();
+			}
 
 		},
     }

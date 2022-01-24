@@ -15,6 +15,7 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->integer('shop_id');
             $table->string('name');
             $table->string('model_name');
             $table->integer('quantity_sold');

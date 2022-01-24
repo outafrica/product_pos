@@ -15,6 +15,7 @@ class Expense extends Model
      * @var array
      */
     protected $fillable = [
+        'shop_id',
         'type',
         'sub_type',
         'beneficiary_name',
@@ -22,4 +23,14 @@ class Expense extends Model
         'amount',
         'month_paid',
     ];
+
+    /**
+     * define user shop relationships.
+     *
+     * @var array
+     */
+
+    public function shop(){
+        return $this->belongsTo(Shop::class);
+     }
 }

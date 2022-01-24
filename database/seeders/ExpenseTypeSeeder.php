@@ -35,6 +35,11 @@ class ExpenseTypeSeeder extends Seeder
             'created_at'=> Date::now(),
             'updated_at'=> Date::now(),
         ]);
+        DB::table('expense_types')->insert([
+            'name' => 'Other',
+            'created_at'=> Date::now(),
+            'updated_at'=> Date::now(),
+        ]);
 
     }
 }

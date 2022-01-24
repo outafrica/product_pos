@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ExpenseController as AdminExpenseController;
 use App\Http\Controllers\Admin\SaleController as AdminSaleController;
+use App\Http\Controllers\Admin\ShopController as AdminShopController;
 use App\Http\Controllers\Agent\ProductController as AgentProductController;
 
 
@@ -47,13 +48,17 @@ Route::group(['prefix' => 'admin' , 'middleware' => 'auth'], function(){
     Route::post('/products/upload', [AdminProductController::class, 'upload']);
     Route::post('/products/delete_image', [AdminProductController::class, 'delete_upload']);
 
-     //Routes for products
+     //Routes for expenses
     Route::get('/expenses/all_expenses', [AdminExpenseController::class, 'index']);
     Route::get('/expenses/expenses_types', [AdminExpenseController::class, 'list_expenseTypes']);
     Route::get('/expenses/expense_sub_types', [AdminExpenseController::class, 'list_expense_subTypes']);
     Route::post('/expenses/create_expense', [AdminExpenseController::class, 'store']);
     Route::post('/expenses/edit_expense', [AdminExpenseController::class, 'update']);
     Route::post('/expenses/delete_expense', [AdminExpenseController::class, 'destroy']);
+
+
+    //Routes for shops
+    Route::get('/shops/all_shops', [AdminShopController::class, 'index']);
 
     //Routes for sales
     Route::get('/sales/all_sales', [AdminSaleController::class, 'index']);
