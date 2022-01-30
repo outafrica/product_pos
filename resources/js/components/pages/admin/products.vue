@@ -15,6 +15,7 @@
 								<th>Shop</th>
 								<th>Image</th>
 								<th>Name</th>
+								<th>Brand</th>
 								<th>Model</th>
 								<th>Quantity</th>
 								<th>Price</th>
@@ -32,6 +33,7 @@
 									<img :src="product.image" alt="" srcset="">
 								</td>
 								<td>{{product.name}}</td>
+								<td>{{product.brand}}</td>
 								<td class="_table_name">{{product.model_name}}</td>
 								<td>{{product.quantity}}</td>
 								<td>{{product.buying_price}}</td>
@@ -55,27 +57,35 @@
 						:closable="false"
 						>
 
-						<Input v-model="data.name" placeholder="Product Name..." />
+						<Input v-model="data.name" placeholder="Product Name" />
+
+						<div style="margin: 10px;"></div>
+
+						<Input v-model="data.brand" placeholder="Product Brand" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="data.model_name" placeholder="Product Model..." />
+						<Input v-model="data.model_name" placeholder="Product Model" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="data.quantity" type="number" placeholder="Quantity..." />
+						<Input v-model="data.quantity" type="number" placeholder="Quantity" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="data.buying_price" type="number" placeholder="Product Price..." />
+						<Input v-model="data.buying_price" type="number" placeholder="Product Price" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="data.distributor_ratio" type="number" placeholder="Distributor ratio..." />
+						<Input v-model="data.distributor_price" type="number" placeholder="Distributor Price" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="data.wholesale_ratio" type="number" placeholder="Wholesale ratio..." />
+						<Input v-model="data.wholesale_price" type="number" placeholder="Wholesale Price" />
+
+                        <div style="margin: 10px;"></div>
+
+						<Input v-model="data.minimum_order_quantity" type="number" placeholder="Minimum Order Quantity" />
 
                         <div style="margin: 10px;"></div>
 
@@ -126,27 +136,35 @@
 						:mask-closable="false"
 						:closable="false"
 						>
-						<Input v-model="editData.name" placeholder="Product Name..." />
+						<Input v-model="editData.name" placeholder="Product Name" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="editData.model_name" placeholder="Product Model..." />
+						<Input v-model="editData.brand" placeholder="Product Brand" />
+
+						<div style="margin: 10px;"></div>
+
+						<Input v-model="editData.model_name" placeholder="Product Model" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="editData.quantity" type="number" placeholder="Quantity..." />
+						<Input v-model="editData.quantity" type="number" placeholder="Quantity" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="editData.buying_price" type="number" placeholder="Product Price..." />
+						<Input v-model="editData.buying_price" type="number" placeholder="Product Price" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="editData.distributor_ratio" type="number" placeholder="Distributor ratio..." />
+						<Input v-model="editData.distributor_price" type="number" placeholder="Distributor ratio" />
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="editData.wholesale_ratio" type="number" placeholder="Wholesale ratio..." />
+						<Input v-model="editData.wholesale_price" type="number" placeholder="Wholesale ratio" />
+
+                        <div style="margin: 10px;"></div>
+
+						<Input v-model="editData.minimum_order_quantity" type="number" placeholder="Minimum Order Quantity" />
 
                         <div style="margin: 10px;"></div>
 
@@ -226,11 +244,13 @@
 
 				data: {
 					name: '',
+					brand: '',
 					image: '',
                     model_name: '',
                     quantity: '',
-					distributor_ratio: '',
-                    wholesale_ratio: '',
+					distributor_price: '',
+                    wholesale_price: '',
+					minimum_order_quantity: '',
                     shop_id: '',
                     buying_price: '',
 				},
@@ -242,11 +262,13 @@
 				isEditing: false,
 				editData: {
 					name: '',
+					brand: '',
 					image: '',
                     model_name: '',
                     quantity: '',
-					distributor_ratio: '',
-                    wholesale_ratio: '',
+					distributor_price: '',
+                    wholesale_price: '',
+					minimum_order_quantity: '',
                     shop_id: '',
                     buying_price: '',
 				},
@@ -296,7 +318,19 @@
 			   
 				if(this.data.name.trim() == ''){
 				   return this.e('The product name is required');
+				}else if(this.data.brand.trim() == ''){
+				   return this.e('The product brand is required');
+				}else if(this.data.model_name.trim() == ''){
+				   return this.e('The product model name is required');
+				}else if(this.data.wholesale_price <=  0 ){
+				   return this.e('The product wholesale price is required');
+				}else if(this.data.distributor_price <= 0 ){
+				   return this.e('The product distributor price is required');
+				}else if(this.data.minimum_order_quantity <= 0 ){
+				   return this.e('The minimum order quantity(MOQ) is required');
 				}
+
+
 				// else if(this.data.image.trim() == ''){
 				//    return this.e('Image upload is required');
 				// }
@@ -308,7 +342,6 @@
 					this.addProductModal=false;
 					this.data.name ='';
 					this.data.image ='';
-
 
 				}else{
 					
@@ -333,7 +366,17 @@
 			   
 			   if(this.editData.name.trim() == ''){
 				   return this.e('The product name is required');
-			   }
+				}else if(this.editData.brand.trim() == ''){
+				   return this.e('The product brand is required');
+				}else if(this.editData.model_name.trim() == ''){
+				   return this.e('The product model name is required');
+				}else if(this.editData.wholesale_price <=  0 ){
+				   return this.e('The product wholesale price is required');
+				}else if(this.editData.distributor_price <= 0 ){
+				   return this.e('The product distributor price is required');
+				}else if(this.editData.minimum_order_quantity <= 0 ){
+				   return this.e('The minimum order quantity(MOQ) is required');
+				}
 
 				const res = await this.callApi('post', '/admin/products/edit_product', this.editData);
 				if(res.status == 200){
@@ -342,8 +385,8 @@
 					this.products[this.index].model_name = this.editData.model_name;
 					this.products[this.index].quantity = this.editData.quantity;
 					this.products[this.index].shop_id = this.editData.shop_id;
-					this.products[this.index].distributor_ratio = this.editData.distributor_ratio;
-					this.products[this.index].wholesale_ratio = this.editData.wholesale_ratio;
+					this.products[this.index].distributor_price = this.editData.distributor_price;
+					this.products[this.index].wholesale_price = this.editData.wholesale_price;
 					this.products[this.index].buying_price = this.editData.buying_price;
 					this.products[this.index].total = this.editData.buying_price * this.editData.quantity;
 					this.s('Product successfully updated');

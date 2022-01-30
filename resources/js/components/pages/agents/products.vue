@@ -15,7 +15,7 @@
 							<tr>
 								<th>ID</th>
 								<th>Image</th>
-								<th>Name</th>
+								<th>Type</th>
 								<th>Model</th>
 								<th>Quantity</th>
 								<th>Price</th>
@@ -32,7 +32,7 @@
 									<img :src="product.image" alt="" srcset="">
 								</td>
 								<td class="_table_name">{{product.name}}</td>
-								<td>{{product.model_name}}</td>
+								<td>{{product.brand}} {{product.model_name}}</td>
 								<td>{{product.quantity}}</td>
 								<td>{{product.buying_price}}</td>
 								<!-- <td>{{product.total}}</td> -->

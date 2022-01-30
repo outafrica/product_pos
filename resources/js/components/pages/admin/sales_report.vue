@@ -51,14 +51,8 @@
 						:closable="false"
 						>
 
-						<Select v-model="data.name" placeholder="Select Product Name" filterable>
-                            <Option v-for="(product, pro) in products" :key="pro" :value="product.name">{{ product.name }}</Option>
-                        </Select>
-
-                        <div style="margin: 10px;"></div>
-
-						<Select v-model="data.model_name" placeholder="Select Product Model Name" filterable>
-                            <Option v-for="(product, pro) in products" :key="pro" :value="product.model_name">{{ product.model_name }}</Option>
+						<Select v-model="data.product_id" placeholder="Select Product" filterable>
+                            <Option v-for="(product, pro) in products" :key="pro" :value="product.id">{{ product.brand }}  {{ product.model_name }}</Option>
                         </Select>
 
                         <div style="margin: 10px;"></div>
@@ -88,25 +82,19 @@
 						:mask-closable="false"
 						:closable="false"
 						>
-						<Select v-model="editData.name" placeholder="Select Expense Type" filterable disabled>
-                            <Option v-for="(product, pro) in products" :key="pro" :value="product.name">{{ product.name }}</Option>
-                        </Select>
-
-                        <div style="margin: 10px;"></div>
-
-						<Select v-model="editData.model_name" placeholder="Select Product Model Name" filterable disabled>
+						<Select v-model="editData.model_name" placeholder="Select Product" filterable disabled>
                             <Option v-for="(product, pro) in products" :key="pro" :value="product.model_name">{{ product.model_name }}</Option>
                         </Select>
 
                         <div style="margin: 10px;"></div>
 
-						<Input v-model="editData.quantity_sold" type="number" placeholder="Quantity..." />
+						<Input v-model="editData.selling_price" type="number" placeholder="Sale Price" disabled />
 
                         <div style="margin: 10px;"></div>
 
-						<!-- <Input v-model="editData.selling_price" type="number" placeholder="Sale Price..." /> -->
+						<Input v-model="editData.quantity_sold" type="number" placeholder="Quantity" />
 
-                        <!-- <div style="margin: 10px;"></div> -->
+                        <div style="margin: 10px;"></div>
 
 						<div slot="footer">
 							<Button type="success" @click="editSale" :disabled="isEditing" :loading="isEditing">{{isEditing ? 'Editing...' : 'Submit'}}</Button>
@@ -139,8 +127,6 @@
 
 					<!--~~~~~~~ End of Sale delete modal ~~~~~~~~~-->
 
-
-
 				</div>
 			</div>
 		</div>
@@ -155,8 +141,7 @@
            return {
 
 				data: {
-					name: '',
-                    model_name: '',
+					product_id: '',
                     quantity_sold: '',
                     selling_price: '',
 				},
@@ -167,8 +152,8 @@
 				editSaleModal: false,
 				isEditing: false,
 				editData: {
-					name: '',
-                    model_name: '',
+					model_name:'',
+					product_id: '',
                     quantity_sold: '',
                     selling_price: '',
 				},
@@ -185,11 +170,7 @@
        methods: {
 		   async addSale(){
 			   
-				if(this.data.name.trim() == ''){
-				   return this.e('The Expense name is required');
-				}else if(this.data.model_name.trim() == ''){
-				   return this.e('The Model Name is required');
-				}else if(this.data.quantity_sold.trim() == 0){
+				if(this.data.quantity_sold.trim() == 0){
 				   return this.e('The Quatity sold is required');
 				}else if(this.data.selling_price == 0){
 				   return this.e('Selling price is required');
@@ -233,21 +214,12 @@
 			},
 		    async editSale(){
 			   
-			   if(this.editData.name.trim() == ''){
-				   return this.e('The Expense name is required');
-				}else if(this.editData.model_name.trim() == ''){
-				   return this.e('The Model Name is required');
-				}else if(this.editData.quantity_sold.trim() == 0){
-				   return this.e('The Quatity sold is required');
-				}else if(this.editData.selling_price == 0){
-				   return this.e('Selling price is required');
+			   if(this.editData.quantity_sold.trim() == 0){
+				   return this.e('The quatity sold is required');
 				}
 			   const res = await this.callApi('post', '/admin/sales/edit_sale', this.editData);
 				if(res.status == 200){
-					this.sales[this.index].name = this.editData.name;
-					this.sales[this.index].model_name = this.editData.model_name;
 					this.sales[this.index].quantity_sold = this.editData.quantity_sold;
-					this.sales[this.index].selling_price = this.editData.selling_price;
 					this.sales[this.index].total = this.editData.selling_price * this.editData.quantity_sold;
 					this.s('Sale successfully updated');
 					this.data.image = '';	

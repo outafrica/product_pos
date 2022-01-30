@@ -36,20 +36,22 @@ trait SaleTrait
 
         if($payload['quantity_sold'] > $product_qauntity){
 
-            return response()->json('The quantity is higher the stock quantity', 430);
+            return response()->json('The quantity is higher than stock available', 430);
 
         }else{
 
 
             $buying_price = Product::where('model_name', $payload['model_name'])->value('buying_price');
+            
+            $wholesale_price = Product::where('model_name', $payload['model_name'])->value('wholesale_price');
 
-            $wholesale_price = (1 + (Product::where('model_name', $payload['model_name'])->value('wholesale_ratio') / 100) ) * $buying_price;
+            $distributor_price = Product::where('model_name', $payload['model_name'])->value('distributor_price');
 
-            $distributor_price = (1 + (Product::where('model_name', $payload['model_name'])->value('distributor_ratio') / 100) ) * $buying_price;
+            $moq = Product::where('model_name', $payload['model_name'])->value('minimum_order_quantity');
 
             // var_dump($wholesale_price); die();
 
-            if($payload['quantity_sold'] > 1){
+            if($payload['quantity_sold'] >= $moq){
 
                 if($payload['selling_price'] > $distributor_price){
 
@@ -111,10 +113,13 @@ trait SaleTrait
     // Update a sale record
     public function update_sale($payload, $sale_id){
 
+        // get original quantity sold before edit
         $sale_quant = Sale::where('id', $sale_id)->value('quantity_sold');
         
+        // check whether quantity sold exceeds the original sale
         $sale_diff = $payload['quantity_sold'] - $sale_quant;
 
+        // get product quantity thats remaining
         $product_qauntity = Product::where('model_name', $payload['model_name'])->value('quantity');
 
         $buying_price = Product::where('model_name', $payload['model_name'])->value('buying_price');
@@ -148,7 +153,17 @@ trait SaleTrait
     // List all products 
     public function list_allProducts(){
 
-        return Product::orderBy('id', 'desc')->get();
+        if(Auth::user()->role_id == 1){
+
+            $shop_id = Auth::user()->shop_id;
+
+            return Product::where('shop_id', $shop_id)->where('shop_id', '!=', 0)->orderBy('id', 'desc')->get();
+        
+        }else{
+
+            return Product::orderBy('id', 'desc')->get();
+
+        }
 
     } 
     

@@ -44,23 +44,28 @@ class ProductController extends Controller
         //
         $this->validate($request, [
             'name' => 'required',
+            'brand' => 'required',
             'model_name' => 'required',
             'quantity' => 'required',
             'buying_price' => 'required',
             'shop_id' => 'required',
-            'distributor_ratio' => 'required',
-            'wholesale_ratio' => 'required',
+            'minimum_order_quantity' => 'required',
+            'distributor_price' => 'required',
+            'wholesale_price' => 'required',
+
         ]);
 
         $payload = array(
             'name' => $request->name,
-            'model_name' => $request->model_name . ' (' . $request->name . ')' . ' - ' . $request->shop_id,
+            'brand' => $request->brand,
+            'model_name' => $request->model_name . ' (' . $request->shop_id . ')',
             'quantity' => $request->quantity,
             'image'=> $request->image,
             'shop_id' => $request->shop_id,
-            'distributor_ratio' => $request->distributor_ratio,
-            'wholesale_ratio' => $request->wholesale_ratio,
+            'distributor_price' => $request->distributor_price,
+            'wholesale_price' => $request->wholesale_price,
             'buying_price' => $request->buying_price,
+            'minimum_order_quantity' => $request->minimum_order_quantity,
             'total' => $request->buying_price * $request->quantity,
         );
         
@@ -101,30 +106,28 @@ class ProductController extends Controller
         $this->validate($request, [
 
             'name' => 'required',
+            'brand' => 'required',
             'model_name' => 'required',
             'quantity' => 'required',
-            'shop_id' => 'required',
-            'distributor_ratio' => 'required',
-            'wholesale_ratio' => 'required',
             'buying_price' => 'required',
+            'minimum_order_quantity' => 'required',
+            'distributor_price' => 'required',
+            'wholesale_price' => 'required',
 
         ]);
 
         $product_id = $request->id;
 
-        $result = explode('(', $request->model_name);
-
-        $model_name = $result[0];
-
         $payload = array(
             'name' => $request->name,
-            'model_name' => $model_name . '(' . $request->name . ')' . ' - ' . $request->shop_id,
+            'brand' => $request->brand,
+            'model_name' => $request->model_name . ' (' . $request->shop_id . ')',
             'quantity' => $request->quantity,
             'image'=> $request->image,
+            'distributor_price' => $request->distributor_price,
+            'wholesale_price' => $request->wholesale_price,
             'buying_price' => $request->buying_price,
-            'shop_id' => $request->shop_id,
-            'distributor_ratio' => $request->distributor_ratio,
-            'wholesale_ratio' => $request->wholesale_ratio,
+            'minimum_order_quantity' => $request->minimum_order_quantity,
             'total' => $request->buying_price * $request->quantity,
         );
 

@@ -16,14 +16,16 @@ class Product extends Model
      */
     protected $fillable = [
         'name',
+        'shop_id',
+        'brand',
         'model_name',
         'image',
         'quantity',
         'buying_price',
-        'distributor_ratio',
-        'wholesale_ratio',
+        'distributor_price',
+        'wholesale_price',
+        'minimum_order_quantity',
         'total',
-        'shop_id'
     ];
 
     /**

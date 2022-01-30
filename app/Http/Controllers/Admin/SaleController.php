@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\SaleTrait;
+use App\Models\Product;
 use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,16 +46,18 @@ class SaleController extends Controller
         $shop_id = Auth::user()->shop_id;
 
         $this->validate($request, [
-            'name' => 'required',
-            'model_name' => 'required',
+            'product_id' => 'required',
             'quantity_sold' => 'required',
             'selling_price' => 'required',
         ]);
 
+        $product_brand = Product::where('id', $request->product_id)->value('brand');
+        $model_name = Product::where('id', $request->product_id)->value('model_name');
+
         $payload = array(
             'shop_id' => $shop_id,
-            'name' => $request->name,
-            'model_name' => $request->model_name,
+            'name' => $product_brand,
+            'model_name' => $model_name,
             'quantity_sold' => $request->quantity_sold,
             'selling_price' => $request->selling_price,
             'total' => $request->selling_price * $request->quantity_sold,
@@ -97,18 +100,16 @@ class SaleController extends Controller
     {
         //
         $this->validate($request, [
-            'name' => 'required',
-            'model_name' => 'required',
             'quantity_sold' => 'required',
         ]);
 
         $sale_id = $request->id;
 
         $selling_price = Sale::where('id', $sale_id)->value('selling_price');
+        $model_name = Sale::where('id', $sale_id)->value('model_name');
 
         $payload = array(
-            'name' => $request->name,
-            'model_name' => $request->model_name,
+            'model_name' => $model_name,
             'quantity_sold' => $request->quantity_sold,
             'total' => $selling_price * $request->quantity_sold,
         );
