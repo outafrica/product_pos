@@ -8,16 +8,23 @@
 
  window.Vue = require('vue').default;
 import router from './router'
- import ViewUI from 'view-design'
- import 'view-design/dist/styles/iview.css'
- import Vue from 'vue'
- import common from './common'
- import locale from 'view-design/dist/locale/en-US';
+import ViewUI from 'view-design'
+import 'view-design/dist/styles/iview.css'
+import Vue from 'vue'
+import moment from 'moment';
+import common from './common'
+import locale from 'view-design/dist/locale/en-US';
  
  Vue.use(ViewUI, {locale: locale})
  Vue.mixin(common)
 
  
+// for date formatting
+ Vue.filter('formatDate', function(value) {
+    if (value) {
+        return moment(String(value)).format('MM/DD/YYYY hh:mm')
+    }
+});
  
  /**
   * The following block of code may be used to automatically register your

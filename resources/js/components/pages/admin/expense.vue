@@ -32,8 +32,8 @@
 								<td>{{expense.amount}}</td>
 								<td>{{expense.month_paid}}</td>
 								<td>
-									<Button type="info" size="small" @click="showEditModal(expense, c)">Edit</Button>
-									<Button type="error" size="small" @click="showDeleteModal(expense, c)" :loading="expense.isDeleting">Delete</Button>
+									<Button type="info" size="small" @click="showEditModal(expense, c)"><Icon type="md-create"/></Button>
+									<Button type="error" size="small" @click="showDeleteModal(expense, c)" :loading="expense.isDeleting"><Icon type="md-trash"/></Button>
 								</td>
 							</tr>
 								<!-- ITEMS -->

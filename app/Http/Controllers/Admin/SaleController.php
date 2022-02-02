@@ -53,11 +53,13 @@ class SaleController extends Controller
 
         $product_brand = Product::where('id', $request->product_id)->value('brand');
         $model_name = Product::where('id', $request->product_id)->value('model_name');
+        $name = Product::where('id', $request->product_id)->value('name');
 
         $payload = array(
             'shop_id' => $shop_id,
-            'name' => $product_brand,
-            'model_name' => $model_name,
+            'product_id' => $request->product_id,
+            'name' => $name,
+            'model_name' => $product_brand . ' ' . $model_name,
             'quantity_sold' => $request->quantity_sold,
             'selling_price' => $request->selling_price,
             'total' => $request->selling_price * $request->quantity_sold,

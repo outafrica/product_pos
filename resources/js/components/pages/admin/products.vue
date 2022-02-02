@@ -14,7 +14,7 @@
 								<th>ID</th>
 								<th>Shop</th>
 								<th>Image</th>
-								<th>Name</th>
+								<th>Type</th>
 								<th>Brand</th>
 								<th>Model</th>
 								<th>Quantity</th>
@@ -39,8 +39,8 @@
 								<td>{{product.buying_price}}</td>
 								<td>{{product.total}}</td>
 								<td>
-									<Button type="info" size="small" @click="showEditModal(product, c)">Edit</Button>
-									<Button type="error" size="small" @click="showDeleteModal(product, c)" :loading="product.isDeleting">Delete</Button>
+									<Button type="info" size="small" @click="showEditModal(product, c)"><Icon type="md-create"/></Button>
+									<Button type="error" size="small" @click="showDeleteModal(product, c)" :loading="product.isDeleting"><Icon type="md-trash"/></Button>
 								</td>
 							</tr>
 								<!-- ITEMS -->

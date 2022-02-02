@@ -18,14 +18,14 @@ class ShopSeeder extends Seeder
         //
         DB::table('shops')->insert([
             'name' => 'Company Name',
-            'Location' => 'Moi Avenue',
+            'Location' => 'Lams Business',
             'created_at'=> Date::now(),
             'updated_at'=> Date::now(),
         ]);
 
         DB::table('shops')->insert([
             'name' => 'Company Name',
-            'Location' => 'FireStation',
+            'Location' => 'Jubilee Arcade',
             'created_at'=> Date::now(),
             'updated_at'=> Date::now(),
         ]);

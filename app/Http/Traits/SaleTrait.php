@@ -19,11 +19,15 @@ trait SaleTrait
 
             $shop_id = Auth::user()->shop_id;
 
-            return Sale::where('shop_id', $shop_id)->where('shop_id', '!=', 0)->orderBy('id', 'desc')->get();
+            $sale = Sale::where('shop_id', $shop_id)->where('shop_id', '!=', 0)->orderBy('id', 'desc')->get();
+            
+            return $sale;
         
         }else{
 
-            return Sale::orderBy('id', 'desc')->get();
+            $sale = Sale::orderBy('id', 'desc')->get();
+
+            return $sale;
 
         }
 
@@ -32,7 +36,7 @@ trait SaleTrait
     // Adds sale to the DB
     public function add_sale($payload){
 
-        $product_qauntity = Product::where('model_name', $payload['model_name'])->value('quantity');
+        $product_qauntity = Product::where('id', $payload['product_id'])->value('quantity');
 
         if($payload['quantity_sold'] > $product_qauntity){
 
@@ -41,13 +45,13 @@ trait SaleTrait
         }else{
 
 
-            $buying_price = Product::where('model_name', $payload['model_name'])->value('buying_price');
+            $buying_price = Product::where('id', $payload['product_id'])->value('buying_price');
             
-            $wholesale_price = Product::where('model_name', $payload['model_name'])->value('wholesale_price');
+            $wholesale_price = Product::where('id', $payload['product_id'])->value('wholesale_price');
 
-            $distributor_price = Product::where('model_name', $payload['model_name'])->value('distributor_price');
+            $distributor_price = Product::where('id', $payload['product_id'])->value('distributor_price');
 
-            $moq = Product::where('model_name', $payload['model_name'])->value('minimum_order_quantity');
+            $moq = Product::where('id', $payload['product_id'])->value('minimum_order_quantity');
 
             // var_dump($wholesale_price); die();
 
@@ -59,7 +63,7 @@ trait SaleTrait
     
                     $total = $buying_price * $new_quantity;
             
-                    $update = Product::where('model_name', $payload['model_name'])->update([
+                    $update = Product::where('id', $payload['product_id'])->update([
                         'quantity' => $new_quantity,
                         'total' => $total,
                     ]);
@@ -85,7 +89,7 @@ trait SaleTrait
             
                     $total = $buying_price * $new_quantity;
             
-                    $update = Product::where('model_name', $payload['model_name'])->update([
+                    $update = Product::where('id', $payload['product_id'])->update([
                         'quantity' => $new_quantity,
                         'total' => $total,
                     ]);

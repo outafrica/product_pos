@@ -45,7 +45,14 @@ class ExpenseSubTypeSeeder extends Seeder
 
         DB::table('expense_sub_types')->insert([
             'expense_type_id' => 2,
-            'name' => 'Chinam Nairobi',
+            'name' => 'Nairobi',
+            'created_at'=> Date::now(),
+            'updated_at'=> Date::now(),
+        ]);
+
+        DB::table('expense_sub_types')->insert([
+            'expense_type_id' => 2,
+            'name' => 'China',
             'created_at'=> Date::now(),
             'updated_at'=> Date::now(),
         ]);

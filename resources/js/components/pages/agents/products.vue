@@ -34,7 +34,7 @@
 								<td class="_table_name">{{product.name}}</td>
 								<td>{{product.brand}} {{product.model_name}}</td>
 								<td>{{product.quantity}}</td>
-								<td>{{product.buying_price}}</td>
+								<td>{{product.wholesale_price}}</td>
 								<!-- <td>{{product.total}}</td> -->
 								<!-- <td>
 									<Button type="info" size="small" @click="showEditModal(product, c)">Edit</Button>

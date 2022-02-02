@@ -13,11 +13,12 @@
 							<tr>
 								<th>ID</th>
 								<th>Shop</th>
-								<th>Product Name</th>
-								<th>Model Name</th>
+								<th>Type</th>
+								<th>Name</th>
 								<th>Quantity Sold</th>
 								<th>Selling Price</th>
 								<th>Total</th>
+								<th>Date</th>
 								<th>Action</th>
 							</tr>
 								<!-- TABLE TITLE -->
@@ -28,13 +29,14 @@
 								<td>{{ c + 1 }}</td>
 								<td>{{ sale.shop_id }}</td>
 								<td class="_table_name">{{sale.name}}</td>
-								<td>{{sale.model_name}}</td>
+								<td class="text-wrap">{{sale.model_name}}</td>
 								<td>{{sale.quantity_sold}}</td>
 								<td>{{sale.selling_price}}</td>
 								<td>{{sale.total}}</td>
+								<td>{{sale.updated_at | formatDate }}</td>
 								<td>
-									<Button type="info" size="small" @click="showEditModal(sale, c)">Edit</Button>
-									<Button type="error" size="small" @click="showDeleteModal(sale, c)" :loading="sale.isDeleting">Delete</Button>
+									<Button type="info" size="small" @click="showEditModal(sale, c)"><Icon type="md-create"/></Button>
+									<Button type="error" size="small" @click="showDeleteModal(sale, c)" :loading="sale.isDeleting"><Icon type="md-trash"/></Button>
 								</td>
 							</tr>
 								<!-- ITEMS -->
