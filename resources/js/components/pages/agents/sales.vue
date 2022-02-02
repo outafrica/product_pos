@@ -52,7 +52,7 @@
 						>
 
 						<Select v-model="data.product_id" placeholder="Select Product" filterable>
-                            <Option v-for="(product, pro) in products" :key="pro" :value="product.id">{{ product.brand }}  {{ product.model_name }}</Option>
+                            <Option v-for="(product, pro) in products" :key="pro" :value="product.id"> {{ product.name }} - {{ product.brand }}  {{ product.model_name }}</Option>
                         </Select>
 
                         <div style="margin: 10px;"></div>
